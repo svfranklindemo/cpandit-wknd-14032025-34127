@@ -5,6 +5,10 @@
   align-items: center;
 }
 
+.form .radio-wrapper {
+  border: 2px black;
+}
+
 .form fieldset {
   display: grid;
   grid-auto-flow: row;
