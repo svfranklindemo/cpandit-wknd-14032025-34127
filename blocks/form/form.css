@@ -9,7 +9,7 @@
   display: grid;
   grid-auto-flow: row;
   margin: 0;
-  border:  3px solid var(--text-color);;
+  border:  3px solid black;
   padding: 0;
 }
 
