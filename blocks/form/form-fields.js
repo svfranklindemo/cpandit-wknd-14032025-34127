@@ -24,6 +24,9 @@ function createLabel(fd) {
   label.id = generateFieldId(fd, '-label');
   label.textContent = fd.Label || fd.Name;
   label.setAttribute('for', fd.Id);
+  if (fd.Mandatory.toLowerCase() === 'true' || fd.Mandatory.toLowerCase() === 'x') {
+    label.dataset.required = true;
+  }
   return label;
 }
 
@@ -67,7 +70,7 @@ const createSelect = async (fd) => {
     const option = document.createElement('option');
     option.text = text.trim();
     option.value = value.trim();
-    if (option.value === select.value) {
+    if (option.value === fd.Value) {
       option.setAttribute('selected', '');
     }
     select.add(option);
@@ -94,7 +97,7 @@ const createSelect = async (fd) => {
     } else {
       options = fd.Options.split(',').map((opt) => ({
         text: opt.trim(),
-        value: opt.trim().toLowerCase(),
+        value: opt.trim(),
       }));
     }
 
@@ -103,7 +106,7 @@ const createSelect = async (fd) => {
 
   const fieldWrapper = createFieldWrapper(fd);
   fieldWrapper.append(select);
-  fieldWrapper.append(createLabel(fd));
+  fieldWrapper.prepend(createLabel(fd));
 
   return { field: select, fieldWrapper };
 };
@@ -117,7 +120,7 @@ const createConfirmation = (fd, form) => {
 const createSubmit = (fd) => {
   const button = document.createElement('button');
   button.textContent = fd.Label || fd.Name;
-  button.classList.add(fd.Style ? fd.Style : 'button');
+  button.classList.add('button');
   button.type = 'submit';
 
   const fieldWrapper = createFieldWrapper(fd);
@@ -133,7 +136,7 @@ const createTextArea = (fd) => {
   const label = createLabel(fd);
   field.setAttribute('aria-labelledby', label.id);
   fieldWrapper.append(field);
-  fieldWrapper.append(label);
+  fieldWrapper.prepend(label);
 
   return { field, fieldWrapper };
 };
@@ -147,7 +150,11 @@ const createInput = (fd) => {
   const label = createLabel(fd);
   field.setAttribute('aria-labelledby', label.id);
   fieldWrapper.append(field);
-  fieldWrapper.append(label);
+  if (fd.Type === 'radio' || fd.Type === 'checkbox') {
+    fieldWrapper.append(label);
+  } else {
+    fieldWrapper.prepend(label);
+  }
 
   return { field, fieldWrapper };
 };

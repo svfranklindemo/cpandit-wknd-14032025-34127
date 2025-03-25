@@ -1,19 +1,12 @@
-/**
- * loads and decorates the form (email subscription) block element
- * @param {Element} block The form block element
- */
-import createField from './form-fields.js';
-import { createOptimizedPicture, sampleRUM } from '../../scripts/aem.js';
+import createField from './form2-fields.js';
 
-async function createForm(formHref) {
+async function createForm(formHref, submitHref) {
   const { pathname } = new URL(formHref);
   const resp = await fetch(pathname);
   const json = await resp.json();
 
   const form = document.createElement('form');
-  form.classList.add('email-sub-form');
-  // eslint-disable-next-line prefer-destructuring
-  form.dataset.action = pathname.split('.json')[0];
+  form.dataset.action = submitHref;
 
   const fields = await Promise.all(json.data.map((fd) => createField(fd, form)));
   fields.forEach((field) => {
@@ -50,13 +43,6 @@ function generatePayload(form) {
   return payload;
 }
 
-function handleSubmitError(form, error) {
-  // eslint-disable-next-line no-console
-  console.error(error);
-  form.querySelector('button[type="submit"]').disabled = false;
-  sampleRUM('form:error', { source: '.form', target: error.stack || error.message || 'unknown error' });
-}
-
 async function handleSubmit(form) {
   if (form.getAttribute('data-submitting') === 'true') return;
 
@@ -75,7 +61,6 @@ async function handleSubmit(form) {
       },
     });
     if (response.ok) {
-      sampleRUM('form:submit', { source: '.form', target: form.dataset.action });
       if (form.dataset.confirmation) {
         window.location.href = form.dataset.confirmation;
       }
@@ -84,76 +69,34 @@ async function handleSubmit(form) {
       throw new Error(error);
     }
   } catch (e) {
-    handleSubmitError(form, e);
+    // eslint-disable-next-line no-console
+    console.error(e);
   } finally {
     form.setAttribute('data-submitting', 'false');
+    submit.disabled = false;
   }
-}
-
-function modifyHTML(block) {
-  const container = block.querySelector('.form.block > div');
-  container.classList.remove('form', 'block');
-  container.classList.add('form-block-wrapper');
-
-  // Find and update the nested divs' classes
-  const nestedDivs = container.querySelectorAll('div');
-  nestedDivs.forEach((div) => {
-    if (!div.querySelector('picture')) {
-      div.classList.add('form-info');
-    } else {
-      div.classList.add('form-image');
-    }
-  });
-
-  container.querySelectorAll('img').forEach((img) => {
-    img.closest('picture').replaceWith(
-      createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]),
-    );
-  });
-
-  const imageEl = container.querySelector('img');
-  imageEl.height = '200';
-  imageEl.width = '200';
 }
 
 export default async function decorate(block) {
-  // Check if json sheet is provided
-  const formLink = block.querySelector('a[href$=".json"]');
-  if (!formLink) return;
-  let jsonPath;
+  const links = [...block.querySelectorAll('a')].map((a) => a.href);
+  const formLink = links.find((link) => link.startsWith(window.location.origin) && link.endsWith('.json'));
+  const submitLink = links.find((link) => link !== formLink);
+  if (!formLink || !submitLink) return;
 
-  async function getData() {
-    [...block.children].forEach((child) => {
-      const linkEl = child.querySelector('a[href$=".json"]');
-      if (linkEl) {
-        jsonPath = linkEl.getAttribute('href');
-        child.remove();
+  const form = await createForm(formLink, submitLink);
+  block.replaceChildren(form);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const valid = form.checkValidity();
+    if (valid) {
+      handleSubmit(form);
+    } else {
+      const firstInvalidEl = form.querySelector(':invalid:not(fieldset)');
+      if (firstInvalidEl) {
+        firstInvalidEl.focus();
+        firstInvalidEl.scrollIntoView({ behavior: 'smooth' });
       }
-    });
-    const configPath = `${window.location.origin}${jsonPath}`;
-    const form = await createForm(configPath);
-    modifyHTML(block);
-    const formInfoElmt = block.querySelector('.form-info');
-    formInfoElmt.append(form);
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const valid = form.checkValidity();
-      if (valid) {
-        handleSubmit(form);
-      } else {
-        const firstInvalidEl = form.querySelector(':invalid:not(fieldset)');
-        if (firstInvalidEl) {
-          firstInvalidEl.focus();
-          firstInvalidEl.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    });
-  }
-
-  function init() {
-    getData();
-  }
-
-  init();
+    }
+  });
 }
