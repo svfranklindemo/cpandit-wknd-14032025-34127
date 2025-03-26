@@ -13,7 +13,7 @@
   display: grid;
   grid-auto-flow: row;
   margin: 0;
-  border:  3px solid rgb(105, 222, 46);
+  border:  3px solid black;
   padding: 0;
 }
 
@@ -67,7 +67,7 @@
   margin: 0;
   padding: 0.5em;
   border-radius: 4px;
-  border: 3px solid rgb(26, 204, 41);
+  border: 3px solid black;
   background-color: whitesmoke;
   color: var(--text-color);
   font-size: var(--body-font-size-s);
