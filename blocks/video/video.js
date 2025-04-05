@@ -1,3 +1,5 @@
+import { loadScript } from "../../scripts/aem";
+
 function embedYoutube(url, replacePlaceholder, autoplay) {
     const usp = new URLSearchParams(url.search);
     let suffix = '';
@@ -104,7 +106,8 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
     block.dataset.embedIsLoaded = true;
 
     if(isScene7){
-
+      const p1=  '../../scripts/VideoViewer.js';
+      loadScript(p1)
       var s7videoviewer = new s7viewers.VideoViewer({
         "containerId" : "s7video_div",
         "params" : { 
