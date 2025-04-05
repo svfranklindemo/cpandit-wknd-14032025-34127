@@ -75,9 +75,10 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
   
   function getDivElement(source, replacePlaceholder, autoplay) {
     const s7div = document.createElement('div');
-   // s7div.setAttribute('id','s7video_div');
-   s7div.setAttribute('id','s7smartcropvideo_div');
-    s7div.setAttribute('class','msil');
+    // s7div.setAttribute('id','s7video_div');
+    s7div.setAttribute('id','s7smartcropvideo_div');
+    // s7div.setAttribute('class','msil');
+    s7div.setAttribute('class','msil-smart');
     return s7div;
   }
 
@@ -124,7 +125,7 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
         "params" : { 
           "serverurl" : "https://s7ap1.scene7.com/is/image/",
           "contenturl" : "https://s7ap1.scene7.com/is/content/", 
-          "config" : "nagarrosoftwarepvtltd/SmartCropVideo",
+          "config" : "nagarrosoftwarepvtltd/MSIL-Smart",
           "videoserverurl": "https://s7ap1.scene7.com/is/content",
           "asset" : "nagarrosoftwarepvtltd/marutibrezza-AVS" }
       })
