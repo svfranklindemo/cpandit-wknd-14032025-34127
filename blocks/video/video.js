@@ -7,7 +7,6 @@
  * https://www.hlx.live/developer/block-collection/video
  */
 
-import { loadScript } from "../../scripts/aem";
 
 function embedYoutube(url, replacePlaceholder, autoplay) {
     const usp = new URLSearchParams(url.search);
@@ -115,7 +114,6 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
     block.dataset.embedIsLoaded = true;
 
     if(isScene7){
-      loadScript(new URL('https://s7ap1.scene7.com/s7viewers/html5/js/VideoViewer.js'));
 
       var s7videoviewer = new s7viewers.VideoViewer({
         "containerId" : "s7video_div",
