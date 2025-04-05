@@ -115,7 +115,7 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
     block.dataset.embedIsLoaded = true;
 
     if(isScene7){
-      loadScript(new URL("https://s7ap1.scene7.com/s7viewers/html5/js/VideoViewer.js"));
+      loadScript(new URL('https://s7ap1.scene7.com/s7viewers/html5/js/VideoViewer.js'));
 
       var s7videoviewer = new s7viewers.VideoViewer({
         "containerId" : "s7video_div",
