@@ -1,13 +1,3 @@
-
-
-
-/*
- * Video Block
- * Show a video referenced by a link
- * https://www.hlx.live/developer/block-collection/video
- */
-
-
 function embedYoutube(url, replacePlaceholder, autoplay) {
     const usp = new URLSearchParams(url.search);
     let suffix = '';
