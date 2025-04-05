@@ -1,3 +1,6 @@
+import s7viewers from './VideoViewer.js';
+
+
 /*
  * Video Block
  * Show a video referenced by a link
@@ -108,7 +111,7 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
     }
     block.replaceChildren(embedEl);
     block.dataset.embedIsLoaded = true;
-    
+
     if(isScene7){
       var s7videoviewer = new s7viewers.VideoViewer({
         "containerId" : "s7video_div",
