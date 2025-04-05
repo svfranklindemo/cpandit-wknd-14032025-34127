@@ -75,7 +75,8 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
   
   function getDivElement(source, replacePlaceholder, autoplay) {
     const s7div = document.createElement('div');
-    s7div.setAttribute('id','s7video_div');
+   // s7div.setAttribute('id','s7video_div');
+   s7div.setAttribute('id','s7smartcropvideo_div');
     s7div.setAttribute('class','msil');
     return s7div;
   }
@@ -106,7 +107,7 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
 
     if(isScene7){
 
-      var s7videoviewer = new s7viewers.VideoViewer({
+      /*var s7videoviewer = new s7viewers.VideoViewer({
         "containerId" : "s7video_div",
         "params" : { 
           "serverurl" : "https://s7ap1.scene7.com/is/image/",
@@ -116,7 +117,19 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
           "videoserverurl": "https://s7ap1.scene7.com/is/content",
           "asset" : "nagarrosoftwarepvtltd/marutibrezza-AVS" }
       })
-      s7videoviewer.init(); 
+      s7videoviewer.init(); */
+
+      var s7smartcropvideoviewer = new s7viewers.SmartCropVideoViewer({
+        "containerId" : "s7smartcropvideo_div",
+        "params" : { 
+          "serverurl" : "https://s7ap1.scene7.com/is/image/",
+          "contenturl" : "https://s7ap1.scene7.com/is/content/", 
+          "config" : "nagarrosoftwarepvtltd/SmartCropVideo",
+          "videoserverurl": "https://s7ap1.scene7.com/is/content",
+          "asset" : "nagarrosoftwarepvtltd/marutibrezza-AVS" }
+      })
+    s7smartcropvideoviewer.init(); 
+
     }
 
   };
