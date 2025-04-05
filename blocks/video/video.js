@@ -107,7 +107,7 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
 
     if(isScene7){
       const p1=  '../../scripts/VideoViewer.js';
-      loadScript(p1)
+      loadScript(p1);
       var s7videoviewer = new s7viewers.VideoViewer({
         "containerId" : "s7video_div",
         "params" : { 
