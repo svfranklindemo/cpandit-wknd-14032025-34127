@@ -82,7 +82,7 @@ function embedYoutube(url, replacePlaceholder, autoplay) {
   }
   
   function getDivElement(source, replacePlaceholder, autoplay) {
-    const s7div = document.createElement('video');
+    const s7div = document.createElement('div');
     s7div.setAttribute('id','s7video_div');
     s7div.setAttribute('class','msil');
     return s7div;
