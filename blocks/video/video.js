@@ -1,4 +1,4 @@
-import s7viewers from '../scripts/VideoViewer.js';
+import s7viewers from '../../scripts/VideoViewer.js'
 
 
 /*
