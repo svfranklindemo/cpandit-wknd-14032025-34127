@@ -70,3 +70,8 @@
     top: 4px;
     left: 7px;
   }
+
+  #s7video_div.s7videoviewer{
+    width:100%; 
+    height:auto;
+ }
